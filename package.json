@@ -1,0 +1,12 @@
+{
+  "name": "convertvalutes",
+  "version": "1.0.0",
+  "description": "",
+  "author": "Sharfina Katerina",
+  "license": "ISC",
+  "dependencies": {
+    "request": "^2.88.2",
+    "express": "^4.17.1",
+    "hbs": "^4.1.1"
+  }
+}
