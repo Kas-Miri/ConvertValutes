@@ -1,64 +1,66 @@
-<div>
-    <form>
-        <div class="form-row">
-            <div class="form-group col-lg-5 col-md-12 m-4">
-                <select class="form-control" id="left-valute" onchange="convert(this)">
-                    {{#each Valute}}
-                    <option value="{{Value}}">{{Name}}</option>
-                    {{/each}}
-                </select>
-                <input class="form-control" id="left-text" value="0" placeholder="100" oninput="convert(this)">
-            </div>
-            <div class="form-group col-lg-5 col-md-12 m-4">
-                <select class="form-control" id="right-valute" onchange="convert(this)">
-                    {{#each Valute}}
-                    <option value="{{Value}}">{{Name}}</option>
-                    {{/each}}
-                </select>
-                <input class="form-control" id="right-text" value="0" placeholder="100" oninput="convert(this)">
-            </div>
+<div class="container">
+    <form class="row">
+        <div class="col">
+            <select class="form-select mb-2" id="left-valute" onchange="convert(this)" aria-label="Выбор валюты">
+                {{#each Valute}}
+                <option value="{{Value}}">{{Name}}</option>
+                {{/each}}
+            </select>
+            <input class="form-control" id="left-text" value="0" placeholder="100" oninput="convert(this)">
+        </div>
+        <div class="col">
+            <select class="form-select mb-2" id="right-valute" onchange="convert(this)" aria-label="Выбор валюты">
+                {{#each Valute}}
+                <option value="{{Value}}">{{Name}}</option>
+                {{/each}}
+            </select>
+            <input class="form-control" id="right-text" value="0" placeholder="100" oninput="convert(this)">
         </div>
     </form>
-</div>
 
-<div>
-    <table class="table table-hower">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Название</th>
-                <th>Обозначение</th>
-                <th>Курс к рублю</th>
-                <th>Рубль к валюте</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each Valute}}
-            <tr>
-                <th>#</th>
-                <th>{{Name}}</th>
-                <th>{{CharCode}}</th>
-                <th>{{Value}}</th>
-                <th>{{DeValue}}</th>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
+    <div class="row-cols">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Название</th>
+                    <th>Обозначение</th>
+                    <th>Курс к рублю</th>
+                    <th>Рубль к валюте</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each Valute}}
+                <tr>
+                    <th>{{inc @index}}</th>
+                    <td>{{Name}}</td>
+                    <td>{{CharCode}}</td>
+                    <td>{{fixed Value}}</td>
+                    <td>{{fixed DeValue}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script>
- function convert(obj) {
-     const leftValute = document.getElementById("left-valute");
-     const rightValute = document.getElementById("right-valute");
+    document.querySelectorAll("#left-valute, #right-valute").forEach(e => {
+        e.children[e.children.length - 1].setAttribute('selected', true);
+    });
 
-     const leftText = document.getElementById("left-text");
-     const rightText = document.getElementById("right-text");
+    function convert(obj) {
+        const leftValute = document.getElementById("left-valute");
+        const rightValute = document.getElementById("right-valute");
 
-     if (obj == leftValute || obj == leftText) {
-         rightText.value = leftText.value * leftValute.value / rightValute.value;
-     }
-     else {
-         leftText.value = rightText.value * rightValute.value / leftValute.value;
-     }
- }
+        const leftText = document.getElementById("left-text");
+        const rightText = document.getElementById("right-text");
+
+        if (obj == leftValute || obj == leftText) {
+            rightText.value = (leftText.value * leftValute.value / rightValute.value).toFixed(3);
+        }
+        else {
+            leftText.value = (rightText.value * rightValute.value / leftValute.value).toFixed(3);
+        }
+    }
 </script>
